@@ -19,7 +19,6 @@ public:
     ofRectangle * ledArea;
     bool * ledLayout;
     ofImage * ledImage;
-//    ofColor colors[480];
     ofColor * colors;
     ofPixels pix;
     int ledWidth;
