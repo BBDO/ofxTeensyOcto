@@ -3,7 +3,7 @@
 //      by Jason Walters @ BBDO ...
 //      Original P5 code by Paul Stoffregen/PJRC.COM
 //
-//      Last revision by Jason Walters on September 19th, 2013
+//      Last revision by Jason Walters on September 20th, 2013
 //      Compatible with openFrameworks 0.80
 //
 ///////////////////////////////////////////////////////////////
