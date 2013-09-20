@@ -6,7 +6,7 @@ class ofxTeensyOcto
 {
 public:
     
-	void setup();
+	void setup(int _ledWidth, int _ledHeight);
     void update();
     void image2data(ofImage image, unsigned char * data, bool layout);
     

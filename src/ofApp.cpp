@@ -16,7 +16,7 @@ void ofApp::setup(){
     ofBackground(0, 0, 0);
     ofDisableAntiAliasing();  // we need our graphics sharp for the LEDs
     
-    teensy.setup();
+    teensy.setup(LWIDTH, LHEIGHT);  // setup and include led width & height
     
     // wave graphics sin + speed
     counterShape = 0.0f;

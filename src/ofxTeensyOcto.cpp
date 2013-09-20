@@ -10,11 +10,11 @@
 #include "ofxTeensyOcto.h"
 
 //--------------------------------------------------------------
-void ofxTeensyOcto::setup(){
+void ofxTeensyOcto::setup(int _ledWidth, int _ledHeight){
     
     // LED variables
-    ledWidth = 60;      // LED max width
-    ledHeight = 8;      // LED max height
+    ledWidth = _ledWidth;      // LED max width
+    ledHeight = _ledHeight;      // LED max height
     errorCount = 0;
     numPorts = 0;       // default teensy ports
     framerate = 30.0f;
@@ -193,7 +193,7 @@ void ofxTeensyOcto::update(){
             ledSerial[i].writeByte(ledData[j]);
             //cout << "ledData[" << j << "] " << (int)ledData[j] << endl;   // serial data
         }
-        ledSerial[i].drain();
+        ledSerial[i].drain();   // this prevents massive flickering!
     }
 
 }

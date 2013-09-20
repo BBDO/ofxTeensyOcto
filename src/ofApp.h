@@ -4,6 +4,9 @@
 
 #include "ofMain.h"
 
+#define LWIDTH 60
+#define LHEIGHT 8
+
 class ofApp : public ofBaseApp{
 
 	public:
