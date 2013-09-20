@@ -4,8 +4,8 @@
 
 #include "ofMain.h"
 
-#define LWIDTH 60
-#define LHEIGHT 8
+#define LWIDTH 60       // our LED max width
+#define LHEIGHT 8       // our LED max height
 
 class ofApp : public ofBaseApp{
 
@@ -26,20 +26,8 @@ class ofApp : public ofBaseApp{
     
     ofxTeensyOcto teensy;
     
-    // draw functions
-    //-----------------------------
-    void drawWaves();
-    
-    // counters
-    //-----------------------------
-    void updateScroller();
-    float counterShape;
-    int hue;
-    
     // variables misc
     //-----------------------------
-    int ledWidth;
-    int ledHeight;
     int brightness;
     float waveSpeed;
 		

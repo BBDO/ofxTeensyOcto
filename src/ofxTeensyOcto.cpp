@@ -7,6 +7,7 @@
 //
 ///////////////////////////////////////////////////////////////
 
+#include "ofApp.h"              // for pointers to main app...
 #include "ofxTeensyOcto.h"
 
 //--------------------------------------------------------------
@@ -19,6 +20,7 @@ void ofxTeensyOcto::setup(int _ledWidth, int _ledHeight){
     numPorts = 0;       // default teensy ports
     framerate = 30.0f;
     maxPorts = 24;      // max teensy ports
+    counterShape = 0;
     
     ledSerial = new ofSerial[maxPorts];
     ledArea = new ofRectangle[maxPorts];
@@ -56,13 +58,6 @@ void ofxTeensyOcto::setup(int _ledWidth, int _ledHeight){
      numPorts++;
      */
     
-}
-
-// translate the 24 bit color from RGB to the actual
-// order used by the LED wiring.  GRB is the most common.
-int colorWiring(int c) {
-    //return c;
-    return ((c & 0xFF0000) >> 8) | ((c & 0x00FF00) << 8) | (c & 0x0000FF); // GRB - most common wiring
 }
 
 // image2data converts an image to OctoWS2811's raw data format.
@@ -109,9 +104,6 @@ void ofxTeensyOcto::image2data(ofImage image, unsigned char * data, bool layout)
                 
                 pixel[i] = colors[temploc].getHex();
                 pixel[i] = colorWiring(pixel[i]);
-                //cout << "x = " << x << " colors[" << temploc << "] " << colors[temploc].getHex() << endl;     // color numbers
-                //cout << "x = " << x << " pixel[" << i << "] " << ofToHex(pixel[i]) << endl;                   // hex values
-                //cout << "pixel[" << i << "] " << pixel[i] << endl;                                            // color numbers
             }
             
             // convert 8 pixels to 24 bytes
@@ -121,42 +113,26 @@ void ofxTeensyOcto::image2data(ofImage image, unsigned char * data, bool layout)
                     if ((pixel[i] & mask) != 0) b |= (1 << i);
                 }
                 data[offset++] = b;
-                //cout << "x = " << x << " data[" << offset << "] " << (int)data[offset] << endl;   // data view
             }
         }
     }
 }
 
-// convert an integer from 0 to 100 to a float percentage
-// from 0.0 to 1.0.  Special cases for 1/3, 1/6, 1/7, etc
-// are handled automatically to fix integer rounding.
-double percentageFloat(int percent) {
-    if (percent == 33) return 1.0 / 3.0;
-    if (percent == 17) return 1.0 / 6.0;
-    if (percent == 14) return 1.0 / 7.0;
-    if (percent == 13) return 1.0 / 8.0;
-    if (percent == 11) return 1.0 / 9.0;
-    if (percent ==  9) return 1.0 / 11.0;
-    if (percent ==  8) return 1.0 / 12.0;
-    return (double)percent / 100.0;
-}
+//--------------------------------------------------------------
+void ofxTeensyOcto::update(){
+    
+    // drawWaves counters
+    counterShape = counterShape + ((ofApp*)ofGetAppPtr())->waveSpeed;
+    hue++;
+    if (hue > 255) hue = 0;
+    
+    // send our data via serial
+    serialWrite();
 
-// scale a number by a percentage, from 0 to 100
-int percentage(int num, int percent) {
-    double mult = percentageFloat(percent);
-    double output = num * mult;
-    return (int)output;
-}
-
-// scale a number by the inverse of a percentage, from 0 to 100
-int percentageInverse(int num, int percent) {
-    double div = percentageFloat(percent);
-    double output = num / div;
-    return (int)output;
 }
 
 //--------------------------------------------------------------
-void ofxTeensyOcto::update(){
+void ofxTeensyOcto::serialWrite(){
     
     for (int i=0; i < numPorts; i++) {
         
@@ -191,9 +167,44 @@ void ofxTeensyOcto::update(){
         // send the raw data to the LEDs  :-)
         for (int j = 0; j < dataSize; j++) {
             ledSerial[i].writeByte(ledData[j]);
-            //cout << "ledData[" << j << "] " << (int)ledData[j] << endl;   // serial data
         }
         ledSerial[i].drain();   // this prevents massive flickering!
     }
+    
+}
 
+//--------------------------------------------------------------
+void ofxTeensyOcto::drawRainbow(int _brightness){
+    
+    // vertical strips of rainbow goodness
+    for (int i = 0; i < ledWidth; i++)
+    {
+        int huemap = ofMap(i, 0, ledWidth-1, 0, 200);
+        ofSetColor(ofColor::fromHsb(huemap, 255, _brightness));
+        ofRect(i, 0, 1, ledHeight);
+    }
+    
+}
+
+//--------------------------------------------------------------
+void ofxTeensyOcto::drawWaves(int _brightness){
+    
+    // back layer
+    float k = 0.0;
+    for(int i = 0; i < ledWidth; i+=3)
+    {
+        ofSetColor(ofColor::fromHsb(hue, 255, _brightness));
+        ofRect(i, ledHeight, 3, -3 * (sin(counterShape-k)+1.0) - 2);
+        k+=0.5;
+    }
+    
+    // front layer
+    float kk = 0.0;
+    for(int i = 0; i < ledWidth; i+=3)
+    {
+        ofSetColor(ofColor::fromHsb(hue, 255, _brightness*0.25));
+        ofRect(i, ledHeight+2, 3, -3 * (sin(counterShape-kk)+1.0) - 2);
+        kk+=0.5;
+    }
+    
 }

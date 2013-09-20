@@ -19,10 +19,8 @@ void ofApp::setup(){
     teensy.setup(LWIDTH, LHEIGHT);  // setup and include led width & height
     
     // wave graphics sin + speed
-    counterShape = 0.0f;
     waveSpeed = 0.05f;
     brightness = 255;   // LED brightness
-    hue = 0;
 
 }
 
@@ -30,58 +28,18 @@ void ofApp::setup(){
 void ofApp::update(){
     
     teensy.update();
-    updateScroller();
-}
-
-//--------------------------------------------------------------
-void ofApp::updateScroller(){
-    
-    // hue scroller
-    // openFrameworks hsb is 0-255, not 0-360 !!
-    hue++;
-    if (hue > 255)
-    {
-        hue = 0;
-    }
-    
-    // counters
-    counterShape = counterShape + waveSpeed;
-    
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
     
-    // draw a simple wave animation
-    drawWaves();
+    //teensy.drawRainbow(brightness);
+    teensy.drawWaves(brightness);
     
     // brightness draw
     ofSetColor(255, 255, 255);
     ofDrawBitmapString("brightness (up/down) == " + ofToString(brightness), 20, ofGetHeight()-40);
     ofDrawBitmapString("waveSpeed (left/right) == " + ofToString(waveSpeed), 20, ofGetHeight()-20);
-    
-}
-
-//--------------------------------------------------------------
-void ofApp::drawWaves() {
-    
-    // back layer
-    float k = 0.0;
-    for(int i = 0; i < teensy.ledWidth; i+=3)
-    {
-        ofSetColor(ofColor::fromHsb(hue, 255, brightness));
-        ofRect(i, 8, 3, -3 * (sin(counterShape-k)+1.0) - 2);
-        k+=0.5;
-    }
-    
-    // front layer
-    float kk = 0.0;
-    for(int i = 0; i < teensy.ledWidth; i+=3)
-    {
-        ofSetColor(ofColor::fromHsb(hue, 255, brightness*0.25));
-        ofRect(i, 10, 3, -3 * (sin(counterShape-kk)+1.0) - 2);
-        kk+=0.5;
-    }
     
 }
 
