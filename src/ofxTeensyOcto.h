@@ -16,19 +16,18 @@ public:
     void drawWaves(int _brightness);
     
     // variables
-    int errorCount;
-    int numPorts;
-    float framerate;
-    int maxPorts;
     ofSerial * ledSerial;
     ofRectangle * ledArea;
     bool * ledLayout;
     ofImage * ledImage;
     ofColor * colors;
     ofPixels pix;
-    ofPixels pixjrw;
     int ledWidth;
     int ledHeight;
+    int errorCount;
+    int numPorts;
+    float framerate;
+    int maxPorts;
     
     // graphics variables
     float counterShape;
