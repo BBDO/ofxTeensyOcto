@@ -18,8 +18,7 @@ void ofApp::setup(){
     
     teensy.setup(LWIDTH, LHEIGHT);  // setup and include led width & height
     
-    // wave graphics sin + speed
-    waveSpeed = 0.05f;
+    waveSpeed = 0.05f;  // wave speed
     brightness = 255;   // LED brightness
 
 }
