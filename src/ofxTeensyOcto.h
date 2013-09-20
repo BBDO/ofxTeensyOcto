@@ -6,7 +6,7 @@ class ofxTeensyOcto
 {
 public:
     
-	void setup(int _ledWidth, int _ledHeight);
+    void setup(int _ledWidth, int _ledHeight);
     void update();
     void serialWrite();
     
