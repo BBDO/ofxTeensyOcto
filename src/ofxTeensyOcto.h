@@ -6,7 +6,10 @@ class ofxTeensyOcto
 {
 public:
     
+<<<<<<< HEAD
     // teensy functions
+=======
+>>>>>>> 8f8d5d84b33b4fb4ca89877a5df3b62200c5e412
     void setup(int _ledWidth, int _ledHeight);
     void update();
     void serialWrite();
@@ -28,7 +31,13 @@ public:
     ofPixels pix;
     int ledWidth;
     int ledHeight;
+<<<<<<< HEAD
     int numPorts;
+=======
+    int errorCount;
+    int numPorts;
+    float framerate;
+>>>>>>> 8f8d5d84b33b4fb4ca89877a5df3b62200c5e412
     int maxPorts;
     
     // graphics variables
