@@ -11,8 +11,8 @@
 #include "ofApp.h"
 
 //--------------------------------------------------------------
-void ofApp::setup(){
-    
+void ofApp::setup()
+{
     ofBackground(0, 0, 0);    // default background to black / LEDs off
     ofDisableAntiAliasing();  // we need our graphics sharp for the LEDs
     
@@ -22,18 +22,17 @@ void ofApp::setup(){
     
     waveSpeed = 0.05f;  // wave speed
     brightness = 20;   // LED brightness
-
 }
 
 //--------------------------------------------------------------
-void ofApp::update(){
-    
+void ofApp::update()
+{
     teensy.update();
 }
 
 //--------------------------------------------------------------
-void ofApp::draw(){
-    
+void ofApp::draw()
+{
     // various teensy draw modes...
     //teensy.drawDebug(brightness, debugScroll);
     //teensy.drawRainbowH(brightness);
@@ -44,12 +43,11 @@ void ofApp::draw(){
     ofSetColor(255, 255, 255);
     ofDrawBitmapString("brightness (up/down) == " + ofToString(brightness), 20, ofGetHeight()-40);
     ofDrawBitmapString("waveSpeed (left/right) == " + ofToString(waveSpeed), 20, ofGetHeight()-20);
-    
 }
 
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key){
-    
+void ofApp::keyPressed(int key)
+{
     switch (key)
     {
         case OF_KEY_UP:
@@ -84,45 +82,44 @@ void ofApp::keyPressed(int key){
             cout << "debugScroll = " << debugScroll << endl;
             break;
     }
-
 }
 
 //--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-
+void ofApp::keyReleased(int key)
+{
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){
-
+void ofApp::mouseMoved(int x, int y )
+{
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
-
+void ofApp::mouseDragged(int x, int y, int button)
+{
 }
 
 //--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-
+void ofApp::mousePressed(int x, int y, int button)
+{
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-
+void ofApp::mouseReleased(int x, int y, int button)
+{
 }
 
 //--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
-
+void ofApp::windowResized(int w, int h)
+{
 }
 
 //--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
-
+void ofApp::gotMessage(ofMessage msg)
+{
 }
 
 //--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){ 
-
+void ofApp::dragEvent(ofDragInfo dragInfo)
+{ 
 }
