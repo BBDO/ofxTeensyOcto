@@ -3,11 +3,7 @@
 //      by Jason Walters @ BBDO ...
 //      Original P5 code by Paul Stoffregen/PJRC.COM
 //
-<<<<<<< HEAD
 //      Last revision by Jason Walters on September 25th, 2013
-=======
-//      Last revision by Jason Walters on September 20th, 2013
->>>>>>> 8f8d5d84b33b4fb4ca89877a5df3b62200c5e412
 //      Compatible with openFrameworks 0.80
 //
 ///////////////////////////////////////////////////////////////
@@ -25,11 +21,7 @@ void ofApp::setup(){
     teensy.serialConfigure("tty.usbmodem14781", 60, 8, 0, 50, 100, 50, 0);
     
     waveSpeed = 0.05f;  // wave speed
-<<<<<<< HEAD
-    brightness = 2;   // LED brightness
-=======
-    brightness = 255;   // LED brightness
->>>>>>> 8f8d5d84b33b4fb4ca89877a5df3b62200c5e412
+    brightness = 20;   // LED brightness
 
 }
 
