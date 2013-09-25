@@ -3,7 +3,7 @@
 //      by Jason Walters @ BBDO ...
 //      Original P5 code by Paul Stoffregen/PJRC.COM
 //
-//      Last revision by Jason Walters on September 19th, 2013
+//      Last revision by Jason Walters on September 25th, 2013
 //      Compatible with openFrameworks 0.80
 //
 ///////////////////////////////////////////////////////////////
@@ -13,14 +13,15 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     
-    ofBackground(0, 0, 0);
+    ofBackground(0, 0, 0);    // default background to black / LEDs off
     ofDisableAntiAliasing();  // we need our graphics sharp for the LEDs
     
-    teensy.setup(LWIDTH, LHEIGHT);  // setup and include led width & height
+    teensy.setup(60, 16);  // setup and include led width & height(8*panel count)    
+    teensy.serialConfigure("tty.usbmodem14761", 60, 8, 0, 0, 100, 50, 0);
+    teensy.serialConfigure("tty.usbmodem14781", 60, 8, 0, 50, 100, 50, 0);
     
-    // wave graphics sin + speed
-    waveSpeed = 0.05f;
-    brightness = 255;   // LED brightness
+    waveSpeed = 0.05f;  // wave speed
+    brightness = 2;   // LED brightness
 
 }
 
@@ -33,8 +34,11 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     
-    //teensy.drawRainbow(brightness);
-    teensy.drawWaves(brightness);
+    // various teensy draw modes...
+    //teensy.drawDebug(brightness, debugScroll);
+    //teensy.drawRainbowH(brightness);
+    //teensy.drawRainbowV(brightness);
+    teensy.drawWaves(brightness, waveSpeed);
     
     // brightness draw
     ofSetColor(255, 255, 255);
@@ -66,6 +70,18 @@ void ofApp::keyPressed(int key){
         case OF_KEY_LEFT:
             waveSpeed-=0.01f;
             if (waveSpeed < 0.05f) waveSpeed = 0.05f;
+            break;
+            
+        case '.':
+            debugScroll++;
+            if (debugScroll > 15) debugScroll = 0;
+            cout << "debugScroll = " << debugScroll << endl;
+            break;
+            
+        case ',':
+            debugScroll--;
+            if (debugScroll < 0) debugScroll = 15;
+            cout << "debugScroll = " << debugScroll << endl;
             break;
     }
 

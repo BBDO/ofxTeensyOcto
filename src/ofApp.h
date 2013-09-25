@@ -4,9 +4,6 @@
 
 #include "ofMain.h"
 
-#define LWIDTH 60       // our LED max width
-#define LHEIGHT 8       // our LED max height
-
 class ofApp : public ofBaseApp{
 
 	public:
@@ -30,5 +27,6 @@ class ofApp : public ofBaseApp{
     //-----------------------------
     int brightness;
     float waveSpeed;
+    int debugScroll;
 		
 };
