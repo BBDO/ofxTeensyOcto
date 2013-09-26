@@ -5,6 +5,7 @@
 class ofxTeensyOcto
 {
 public:
+    
     // teensy functions
     void setup(int _ledWidth, int _ledHeight);
     void update();
@@ -24,7 +25,8 @@ public:
     bool * ledLayout;
     ofImage * ledImage;
     ofColor * colors;
-    ofPixels pix;
+    ofPixels pixels1;
+    ofPixels pixels2;
     int ledWidth;
     int ledHeight;
     int numPorts;

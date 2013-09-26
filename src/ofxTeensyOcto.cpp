@@ -45,53 +45,6 @@ void ofxTeensyOcto::serialConfigure(string portName, int _ledWidth, int _ledHeig
     ledArea[numPorts].set(_xoffset, _yoffset, _portWidth, _portHeight);
     ledLayout[numPorts] = _direction == 0; // affects layout > pixel direction
     numPorts++;
-    
-    // old way from processing sketch...
-    /*
-    if (numPorts >= maxPorts)
-    {
-        cout << "too many serial ports, please increase maxPorts" << endl;
-        errorCount++;
-        return;
-    }
-    else
-    {
-        int baud = 9600;
-        ledSerial[numPorts].setup(portName, baud);
-        ledSerial[numPorts].writeByte('?');         // send an initial character
-    }
-    ofSleepMillis(50);
-    
-    // let's pull some data off the teensy...
-    unsigned char *c = new unsigned char[28];
-    ledSerial[numPorts].readBytes(c, 28);
-    
-    string line = ofToString(*&c);    
-    if (line == "")
-    {
-        cout << "Serial port " + portName + " is not responding." << endl;
-        cout << "Is it really a Teensy 3.0 running VideoDisplay?" << endl;
-        errorCount++;
-        return;
-    }
-    
-    // split that teensy data out into items
-    vector<string> param = ofSplitString(line, ",");
-    
-    // check for 12 array items -- why 12???
-    if (param.size() != 12)
-    {
-        cout << "Error: port " << portName << " did not respond to LED config query" << endl;
-        errorCount++;
-        return;
-    }
-    
-    // only store the info and increase numPorts if Teensy responds properly
-    ledImage[numPorts].allocate(ofToInt(param[0]), ofToInt(param[1]), OF_IMAGE_COLOR);
-    ledArea[numPorts].set(ofToInt(param[5]), ofToInt(param[6]), ofToInt(param[7]), ofToInt(param[8]));
-    ledLayout[numPorts] = (ofToInt(param[5]) == 0); // affects layout > pixel direction
-    numPorts++;
-    */
 }
 
 // image2data converts an image to OctoWS2811's raw data format.
@@ -106,7 +59,7 @@ void ofxTeensyOcto::image2data(ofImage image, unsigned char * data, bool layout)
     int * pixel = new int[8];
     
     // get the copied image pixels
-    pix = image.getPixelsRef();
+    pixels2 = image.getPixelsRef();
     
     // 2d array of our pixel colors
     for (int x = 0; x < ledWidth; x++)
@@ -114,7 +67,7 @@ void ofxTeensyOcto::image2data(ofImage image, unsigned char * data, bool layout)
         for (int y = 0; y < ledHeight; y++)
         {
             int loc = x + y * ledWidth;
-            colors[loc] = pix.getColor(x, y);
+            colors[loc] = pixels2.getColor(x, y);
         }
     }
     
@@ -177,7 +130,8 @@ void ofxTeensyOcto::serialWrite()
         int yheight = percentage(ledHeight, ledArea[i].getHeight());
         
         // grabs the screen so we can convert to pixels
-        ledImage[i].grabScreen(xoffset, yoffset, xwidth, yheight);
+        ledImage[i].setFromPixels(pixels1);
+        ledImage[i].crop(xoffset, yoffset, xwidth, yheight);
         
         // convert the LED image to raw data
         unsigned char *ledData = new unsigned char[((int)ledImage[i].getWidth() * (int)ledImage[i].getHeight() * 3) + 3];

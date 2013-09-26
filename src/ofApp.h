@@ -23,6 +23,9 @@ class ofApp : public ofBaseApp{
     
     ofxTeensyOcto teensy;
     
+    ofFbo fbo;
+    void updateFbo();
+    
     // variables misc
     //-----------------------------
     int brightness;
